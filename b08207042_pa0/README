@@ -1,0 +1,27 @@
+This is mergesort example for NTUEE Algorithms students.
+created by Prof. Chien-Mo Li, NTUEE, 7/28/2022
+===================
+DIRECTORY
+bin/  executable binary
+doc/  documents
+inputs/   input unsorted data
+lib/  library files about time and memory usage
+outputs/  output sorted data
+src/  source C++ codes
+README  this file
+===================
+GETTING STARTED
+Please read the word file in doc/PA1.doc.
+To start the demo (debug version), simply following steps
+    make demo_dbg
+    cd /bin
+    ./demo_dbg
+
+To use the optimized version,
+    make demo_opt
+    cd /bin
+    ./demo_opt
+    
+====================
+CONTACT
+If you have any qusetion, please email cmli@ntu.edu.tw or TA  
