@@ -4,6 +4,6 @@
 #include <vector>
 using namespace std;
 
-void maxPlanarSubset(vector<vector<int>>&, vector<vector<int>>&);
+vector<vector<int>> maxPlanarSubset(vector<int>&, vector<vector<int>>&, int);
 
 #endif

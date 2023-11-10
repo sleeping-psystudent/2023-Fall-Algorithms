@@ -13,23 +13,23 @@ int main(int argc, char* argv[]){
     fout.open(argv[2],ios::out);
     int n;
     fin>>n;
-    vector<vector<int>> data(n/2, vector<int>(2));
+    vector<int> data(n, -1);
     int a, b;
-    i=0;
-    while(i<(n/2)){
+    for(i=0;i<(n/2);i++){
         fin>>a>>b;
-        data[i].push_back(a);
-        data[i].push_back(b);
+        data[a]=b;
+        data[b]=a;
+        i++;
     }
 
     //////////// initialization ////////////
-    vector<vector<int>> table(n, vector<int>(n, 0));
+    vector<vector<int>> table(n, vector<int>(n, -1));
 
     //////////// find maximum planar subset ////////////
-    maxPlanarSubset(data, table);
+    vector<vector<int>> MIS=maxPlanarSubset(data, table, n);
 
     //////////// write the output file ////////////
-    fout<<
+    fout<<MIS[0][n-1]<<endl;
     for(){}
     fin.close();
     fout.close();
