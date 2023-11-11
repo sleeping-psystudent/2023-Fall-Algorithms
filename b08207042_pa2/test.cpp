@@ -24,7 +24,7 @@ int main() {
         j=i+sub;
         while(j<n){
             k=data[j];
-        	cout<<i<<","<<j<<","<<k<<" ";
+        	//cout<<i<<","<<j<<","<<k<<" ";
             //case 1: k>j>i or j>i>k
             if(k>j || i>k){
                 MIS[i][j]=MIS[i][j-1];
@@ -41,7 +41,7 @@ int main() {
             i++;
             j++;
         }
-        cout<<endl;
+        //cout<<endl;
     }
     
     cout<<MIS[0][n-1]<<endl;
