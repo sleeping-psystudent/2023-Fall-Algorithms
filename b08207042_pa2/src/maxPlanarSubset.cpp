@@ -1,9 +1,11 @@
 #include "maxPlanarSubset.h"
 #include <iostream>
 
-vector<vector<int>> maxPlanarSubset(vector<int>& data, vector<vector<int>>& table, int num){
+int maxPlanarSubset(vector<int>& data, int num, int **result){
     // initialize MIS
     vector<vector<int>> MIS(num, vector<int>(num, 0));
+    vector<vector<int>> dirt(num, vector<int>(num, -1));
+    vector<vector<int>> table(num, vector<int>(num, -1));
 
     int i, j, sub, k;
     for(sub=1;sub<num;sub++){
@@ -28,29 +30,11 @@ vector<vector<int>> maxPlanarSubset(vector<int>& data, vector<vector<int>>& tabl
             j++;
         }
     }
-    return MIS;
+
+    trace(0, num-1, 0, data, num, result);
+    return MIS[0][num-1];
 }
 
-/*
-12
-0 4
-1 9
-2 6
-3 10
-5 7
-8 11
-0
+void trace(int i, int j, int acc, vector<int>& data, int num, int **result){
 
-0 0 0 0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 0 0 0 0 0 0 0 
-1 0 0 0 0 0 0 0 0 0 0 0 
-1 0 0 0 0 0 0 0 0 0 0 0 
-1 1 1 0 0 0 0 0 0 0 0 0 
-2 1 1 1 1 1 0 0 0 0 0 0 
-2 1 1 1 1 1 0 0 0 0 0 0 
-2 2 1 1 1 1 0 0 0 0 0 0 
-2 2 2 2 1 1 0 0 0 0 0 0 
-3 2 2 2 2 2 1 1 1 0 0 0
-*/
+}

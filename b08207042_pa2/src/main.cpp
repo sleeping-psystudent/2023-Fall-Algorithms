@@ -21,15 +21,14 @@ int main(int argc, char* argv[]){
         data[b]=a;
     }
 
-    //////////// initialization ////////////
-    vector<vector<int>> table(n, vector<int>(n, -1));
-
     //////////// find maximum planar subset ////////////
-    vector<vector<int>> MIS=maxPlanarSubset(data, table, n);
+    int** result=new int*[(n/2)];
+
+    int MIS=maxPlanarSubset(data, n, result);
 
     //////////// write the output file ////////////
-    fout<<MIS[0][n-1]<<endl;
-    for(){}
+    fout<<MIS<<endl;
+    //for(){}
     fin.close();
     fout.close();
     return 0;
