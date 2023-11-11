@@ -19,7 +19,6 @@ int main(int argc, char* argv[]){
         fin>>a>>b;
         data[a]=b;
         data[b]=a;
-        i++;
     }
 
     //////////// initialization ////////////

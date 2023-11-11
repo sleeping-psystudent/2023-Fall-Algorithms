@@ -5,19 +5,27 @@ vector<vector<int>> maxPlanarSubset(vector<int>& data, vector<vector<int>>& tabl
     // initialize MIS
     vector<vector<int>> MIS(num, vector<int>(num, 0));
 
-    int i, j, k;
-    for(j=0;j<num;j++){
-        k=data[j];
-        for(i=0;i<j;i++){
-            //case 1: i<k<j
-            if() MIS[i][j]=MIS[i][j-1];
-            //case 2: else
-            else if((i<=k && k<j) && MIS[i][k-1]+1+MIS[k+1][j-1]>MIS[i][j-1]){
-                MIS[i][j]=MIS[i][k-1]+1+MIS[k+1][j-1];
-                table[i][j]=2;
+    int i, j, sub, k;
+    for(sub=1;sub<num;sub++){
+        i=0;
+        j=i+sub;
+        while(j<num){
+            k=data[j];
+            //case 1: k>j>i or j>i>k
+            if(k>j || i>k){
+                MIS[i][j]=MIS[i][j-1];
             }
-            //case 3: 
-            else MIS[i][j]=MIS[i+1][j-1]+1;
+            //case 2: j>k>i
+            else if(j>k && k>i){
+                MIS[i][j]=MIS[i][k-1]+1+MIS[k+1][j-1];
+            }
+            //case 3: k==i
+            else if(k==i){
+                MIS[i][j]=MIS[i+1][j-1]+1;
+            }
+
+            i++;
+            j++;
         }
     }
     return MIS;
