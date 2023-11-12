@@ -1,12 +1,15 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include "../lib/tm_usage.h"
 #include "maxPlanarSubset.h"
 
 using namespace std;
 
 int main(int argc, char* argv[]){
-    int i, j;
+    //CommonNs::TmUsage tmusg;
+    //CommonNs::TmStat stat;
+    int i;
 
     //////////// read the input file ////////////
     fstream fin(argv[1]);
@@ -24,12 +27,16 @@ int main(int argc, char* argv[]){
 
     //////////// find maximum planar subset ////////////
     int** result=new int*[(n/2)];
+    //tmusg.periodStart();
     int MIS=maxPlanarSubset(data, n, result);
+    //sorting
+    sort(result, result+MIS, compare);
+    //tmusg.getPeriodUsage(stat);
+    //cout <<"The total CPU time: " << (stat.uTime + stat.sTime) / 1000.0 << "ms" << endl;
+    //cout <<"memory: " << stat.vmPeak << "KB" << endl; // print peak memory
 
     //////////// write the output file ////////////
     fout<<MIS<<endl;
-    //sorting
-    sort(result, result+MIS, compare);
 
     //output
     for(i=0;i<MIS;i++) fout<<result[i][0]<<" "<<result[i][1]<<endl;

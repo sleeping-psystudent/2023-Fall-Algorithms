@@ -2,7 +2,7 @@
 #include <iostream>
 
 int maxPlanarSubset(vector<int>& data, int num, int **result){
-    // initialize MIS
+    // initialize
     vector<vector<int>> MIS(num, vector<int>(num, 0));
     vector<vector<int>> dirt(num, vector<int>(num, -1));
     vector<vector<int>> table(num, vector<int>(num, -1));
@@ -47,18 +47,22 @@ int maxPlanarSubset(vector<int>& data, int num, int **result){
 void trace(int i, int j, int* acc, vector<int>& data, int num, vector<vector<int>> dirt, vector<vector<int>> table, int **result){
     if(table[i][j]==-1) return;
 
-    int k=data[j];
-    result[*acc]=new int[2];
-    result[*acc][0]=k;
-    result[*acc][1]=j;
-    *acc+=1;
-
-    if(dirt[i][j]==2){
-        if(0<=i && i<num && 0<=k-1 && k-1<num) trace(i, k-1, acc, data, num, dirt, table, result);
-        if(0<=k+1 && k+1<num && 0<=j-1 && j-1<num) trace(k+1, j-1, acc, data, num, dirt, table, result);
+    if(dirt[i][j]==1){
+        if(0<=j-1 && j-1<num) trace(i, j-1, acc, data, num, dirt, table, result);
     }
-    else if(dirt[i][j]==3){
-        if(0<=i+1 && i+1<num && 0<=j-1 && j-1<num) trace(i+1, j-1, acc, data, num, dirt, table, result);
+    else{
+        int k=data[j];
+        result[*acc]=new int[2];
+        result[*acc][0]=min(k, j);
+        result[*acc][1]=max(k, j);
+        *acc+=1;
+        if(dirt[i][j]==2){
+            if(0<=i && i<num && 0<=k-1 && k-1<num) trace(i, k-1, acc, data, num, dirt, table, result);
+            if(0<=k+1 && k+1<num && 0<=j-1 && j-1<num) trace(k+1, j-1, acc, data, num, dirt, table, result);
+        }
+        else if(dirt[i][j]==3){
+            if(0<=i+1 && i+1<num && 0<=j-1 && j-1<num) trace(i+1, j-1, acc, data, num, dirt, table, result);
+        }
     }
 }
 

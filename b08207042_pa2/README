@@ -1,0 +1,36 @@
+This is README file for Algorithm PA#1
+Author: Lee Tsai-Rung B08207042
+Date:
+=====
+SYNOPSIS:
+
+mps <input_file_name> <output_file_name>
+
+This program is used to compute the number of chords in the maximum planar subset in a circle of n chords.
+=====
+DIRECTORY:
+
+bin/	  executable binary
+doc/	  reports
+inputs/   input data
+outputs/  output result
+lib/	  library
+src/ 	  source C++ codes
+utility/  checker
+======
+HOW TO CIMPILE:
+
+Then compile the demo, simply follow the following steps
+	make
+======
+HOW TO RUN:
+
+	cd bin/
+	./bin/mps <input_file_name> <output_file_name>
+	For example,
+	under b08207042_pa2
+	./bin/mps inputs/12.in outputs/12.out
+
+OTHER NOTICE:
+- Language: C or C++.
+- Platform: Unix/Linux
