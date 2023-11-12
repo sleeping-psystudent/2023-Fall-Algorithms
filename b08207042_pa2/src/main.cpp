@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 #include "maxPlanarSubset.h"
 
 using namespace std;
@@ -23,13 +24,22 @@ int main(int argc, char* argv[]){
 
     //////////// find maximum planar subset ////////////
     int** result=new int*[(n/2)];
-
     int MIS=maxPlanarSubset(data, n, result);
 
     //////////// write the output file ////////////
     fout<<MIS<<endl;
-    //for(){}
+    //sorting
+    sort(result, result+MIS, compare);
+
+    //output
+    for(i=0;i<MIS;i++) fout<<result[i][0]<<" "<<result[i][1]<<endl;
     fin.close();
     fout.close();
+
+    for(i=0;i<MIS;i++) {
+        delete[] result[i];
+    }
+    delete[] result;
+
     return 0;
 }
