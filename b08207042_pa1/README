@@ -1,6 +1,6 @@
 This is README file for Algorithm PA#1
-Author: <please fill in name and student ID>
-Date:
+Author: b08207042 Lee Tsai-Rung
+Date: 2023/09/27
 =====
 SYNOPSIS:
 
@@ -36,7 +36,7 @@ HOW TO VERIFY RESULT
     cd utility/
     ./PA1_Result_Checker <result_file_name>
 	For example,
-	under <student_id>_pa1
+	under b08207042_pa1
 	./utility/PA1_Result_Checker ./output/5.case1.out
 
 OTHER NOTICE:
