@@ -21,10 +21,10 @@
 |Ch11|Amortized Analysis||
 |Ch12|Elementary Graph Algorithms||
 |Ch13|Disjoint Sets||
-|Ch14|Minimum Spanning Trees||
+|Ch14|Minimum Spanning Trees|[PA3](https://github.com/sleeping-psystudent/2023-Fall-Algorithms/tree/master/b08207042_pa3)|
 |Ch15|Single-Sources Shortest Paths||
 |Ch16|All-Pairs Shortest Paths||
-|Ch17|Maximum Flow|[PA3](https://github.com/sleeping-psystudent/2023-Fall-Algorithms/tree/master/b08207042_pa3)|
+|Ch17|Maximum Flow||
 |Ch18|NP Completeness||
 
     自行思考、動手創造是學習進步的不二法門，修習此門課程的同學請勿抄襲
