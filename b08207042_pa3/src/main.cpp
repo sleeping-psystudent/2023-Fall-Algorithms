@@ -30,36 +30,53 @@ int main(int argc, char*argv[]){
     }
 
     //////////// which type to execute ////////////
+    int ans;
+
     if(type=='u'){
         for(i=0;i<ver_num;i++) parent_indegree[i]=i; //parent
         CountSort(edge_set);
-        int ans=KruskalMST(edge_set, parent_indegree, rank_outdegree);
+        ans=KruskalMST(edge_set, parent_indegree, rank_outdegree);
     }
     else if(type=='d'){
+
         vector<vertex> ver_set(ver_num);
         degreeCal(edge_set, ver_set, parent_indegree, rank_outdegree);
 
         vertex* s1=new vertex();
         s1->idx=-1;
         s1->sigma=0;
+        s1->idx_ts=0;
         s1->front=NULL;
         s1->back=NULL;
         vertex* s2=new vertex();
-        s2->idx=-1;
+        s2->idx=1;
         s2->sigma=0;
+        s2->idx_ts=0;
         s2->front=NULL;
         s2->back=NULL;
 
-    
+        ELS(ver_set, s1, s2, parent_indegree, rank_outdegree);
+        ans=DAG(edge_set, ver_set);
     }
+/*
+    //for testing
+    cout<<ans<<endl;
+    for(i=0;i<edge_num;i++){
+        if(edge_set[i].u==-1) continue;
+        else cout<<edge_set[i].u<<" "<<edge_set[i].v<<" "<<edge_set[i].w<<endl;
+    }
+*/
 
     //////////// write the output file ////////////
+    
     fout<<ans<<endl;
     for(i=0;i<edge_num;i++){
         if(edge_set[i].u==-1) continue;
         else fout<<edge_set[i].u<<" "<<edge_set[i].v<<" "<<edge_set[i].w<<endl;
     }
+    
 
     fin.close();
     fout.close();
+
 }

@@ -65,6 +65,7 @@ int KruskalMST(vector<edge>& data, vector<int>& parent, vector<int>& rank){
 
 //////////// Directed Acyclic Graph ////////////
 
+//Calculate indegree, outdegree, and sigma
 void degreeCal(vector<edge>& data1, vector<vertex>& data2, vector<int>& indegree, vector<int>& outdegree){
     int i;
     for(i=0;i<data1.size();i++){
@@ -72,25 +73,93 @@ void degreeCal(vector<edge>& data1, vector<vertex>& data2, vector<int>& indegree
         outdegree[data1[i].u]++;
     }
     for(i=0;i<indegree.size();i++){
-        vertex info={i, outdegree[i]-indegree[i], NULL, NULL};
-        data2.push_back(info);
+        data2[i].idx=i;
+        data2[i].sigma=outdegree[i]-indegree[i];
+        data2[i].front=NULL;
+        data2[i].back=NULL;
     }
 }
 
-void ELS(vector<vertex>& data, vertex s1, vertex s2, vector<int>& indegree, vector<int>& outdegree){
+//Algorithm by E, L, S
+void ELS(vector<vertex>& data2, vertex* s1, vertex* s2, vector<int>& indegree, vector<int>& outdegree){
     int i;
     int count=0;
-    vertex now1=s1;
-    vertex now2=s2;
+    vertex* now1=s1;
+    vertex* now2=s2;
+    vector<vertex> rest(data2.size());
 
-    for(i=0;i<data.size();i++){
+    for(i=0;i<data2.size();i++){
+        //source s1<-s1u
         if(indegree[i]==0){
-            now1->back=data[i];
-            data[i].front=now1;
-            now1->back=
+            now1->back=&data2[i];
+            data2[i].front=now1;
+            now1=now1->back;
+            //cout<<"source: "<<now1->idx<<" "<<now1->sigma<<endl;
         }
-        else if(outdegree[i]==0){}
+        //sink s2<-us2
+        else if(outdegree[i]==0){
+            now2->front=&data2[i];
+            data2[i].back=now2;
+            now2=now2->front;
+            //cout<<"sink: "<<now2->idx<<" "<<now2->sigma<<endl;
+        }
+        else{
+            rest[count].idx=data2[i].idx;
+            rest[count].sigma=data2[i].sigma;
+            rest[count].idx_ts=data2[i].idx_ts;
+            rest[count].front=NULL;
+            rest[count].back=NULL;
+            //cout<<"count: "<<rest[count].idx<<" "<<rest[count].sigma<<endl;
+            count++;
+        }
     }
-    while
-    
+
+    //neither source nor sink
+    if(count!=0){
+        //sorting by sigma
+        sort(rest.begin(), rest.begin()+count, compareSigma);
+        //maximum s1<-s1u
+        for(i=0;i<count;i++){
+            now1->back=&data2[rest[i].idx];
+            data2[rest[i].idx].front=now1;
+            now1=now1->back; 
+            //cout<<"rest: "<<rest[i].idx<<" "<<rest[i].sigma<<endl;
+            //cout<<"max: "<<now1->idx<<" "<<now1->sigma<<endl;
+        }
+    }
+    //s<-s1s2
+    now1->back=now2;
+    now2->front=now1;
+
+    //topolofical sort index
+    vertex* now=s1->back;
+    for(i=0;i<data2.size();i++){
+        now->idx_ts=i;
+        now=now->back;
+    }
+
+}
+
+//Nonincreasing
+bool compareSigma(const vertex& v1, const vertex& v2){
+    return v1.sigma>v2.sigma;
+}
+
+//Find out backward edge
+int DAG(vector<edge>& data1, vector<vertex>& data2){
+    int i, u, v;
+    int weightSum=0;
+    int maxSum=0;
+
+    for(i=0;i<data1.size();i++){
+        u=data2[data1[i].u].idx_ts;
+        v=data2[data1[i].v].idx_ts;
+        weightSum+=data1[i].w;
+        //not backward edge
+        if(u<v){
+            maxSum+=data1[i].w;
+            data1[i].u=-1;
+        }
+    }
+    return weightSum-maxSum;
 }

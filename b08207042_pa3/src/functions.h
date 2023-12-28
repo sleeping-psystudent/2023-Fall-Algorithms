@@ -13,8 +13,9 @@ struct edge{
 struct vertex{
     int idx;
     int sigma;
-    vertex* front;
-    vertex* back;
+    int idx_ts;
+    struct vertex* front;
+    struct vertex* back;
 };
 
 //////////// Undirected Acyclic Graph ////////////
@@ -24,6 +25,8 @@ void CountSort(vector<edge>& data);
 int KruskalMST(vector<edge>& data, vector<int>& parent, vector<int>& rank);
 //////////// Directed Acyclic Graph ////////////
 void degreeCal(vector<edge>& data1, vector<vertex>& data2, vector<int>& indegree, vector<int>& outdegree);
-
+void ELS(vector<vertex>& data2, vertex* s1, vertex* s2, vector<int>& indegree, vector<int>& outdegree);
+bool compareSigma(const vertex& v1, const vertex& v2);
+int DAG(vector<edge>& data1, vector<vertex>& data2);
 
 #endif
