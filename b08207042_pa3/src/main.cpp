@@ -2,10 +2,15 @@
 #include <fstream>
 #include <algorithm>
 #include "functions.h"
+/*
+#include "../lib/tm_usage.h"
+*/
 
 using namespace std;
 
 int main(int argc, char*argv[]){
+    //CommonNs::TmUsage tmusg;
+    //CommonNs::TmStat stat;
     int i;
 
     //////////// read the input file ////////////
@@ -33,6 +38,7 @@ int main(int argc, char*argv[]){
     int ans;
     vector<edge> remain;
     vector<edge> remove;
+    //tmusg.periodStart();
 
     if(type=='u'){
         for(i=0;i<ver_num;i++) parent_indegree[i]=i; //parent
@@ -76,28 +82,46 @@ int main(int argc, char*argv[]){
         //put positive edges back to the graph
         for(i=0;i<remove.size();i++){
             if(remove[i].w>0){
-                if(DFS()==false){
-
+                //push back to adj
+                adjList[remove[i].u].push_back({remove[i].v, remove[i].w});
+                //check whether there is a cycle
+                if(Cycle(adjList)==true){
+                    adjList[remove[i].u].pop_back(); //有環的話就不能加入remain
+                }
+                else{
+                    remove[i].u=-1; //沒有環，從remove刪掉
+                    ans-=remove[i].w;
                 }
             }
+
         }
     }
-
+/*
+    tmusg.getPeriodUsage(stat);
+    cout<<ans<<endl;
+    cout <<"The total CPU time: " << (stat.uTime + stat.sTime) / 1000.0 << "ms" << endl;
+    cout <<"memory: " << stat.vmPeak << "KB" << endl; // print peak memory
+*/
+/*
     //for testing
     cout<<ans<<endl;
-    for(i=0;i<remove.size();i++) cout<<remove[i].u<<" "<<remove[i].v<<" "<<remove[i].w<<endl;
-
+    for(i=0;i<remove.size();i++){
+        if(remove[i].u!=-1){
+            cout<<remove[i].u<<" "<<remove[i].v<<" "<<remove[i].w<<endl;
+        }
+    }
+*/
 
     //////////// write the output file ////////////
-/*    
+   
     fout<<ans<<endl;
-    for(i=0;i<edge_num;i++){
-        if(edge_set[i].u==-1) continue;
-        else fout<<edge_set[i].u<<" "<<edge_set[i].v<<" "<<edge_set[i].w<<endl;
+    for(i=0;i<remove.size();i++){
+        if(remove[i].u!=-1){
+            fout<<remove[i].u<<" "<<remove[i].v<<" "<<remove[i].w<<endl;
+        }
     }
     
-
     fin.close();
     fout.close();
-*/
+
 }

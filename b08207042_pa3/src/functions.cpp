@@ -66,8 +66,31 @@ int KruskalMST(vector<edge>& data, vector<edge>& rmv, vector<edge>& rma, vector<
 
 //////////// Directed Acyclic Graph ////////////
 
-//bool DFS
+bool Cycle(vector<vector<vertex>>& adjList){
+    int i;
+    vector<int> color(adjList.size(), 0); //0=white, 1=gray, 2=black
 
+    for(i=0;i<color.size();i++){
+        if(color[i]==0){
+            if(DFS(adjList, color, i)) return true;
+        }
+    }
+    return false;
+}
+
+bool DFS(vector<vector<vertex>>& adjList, vector<int>& color, int u){
+    int i;
+
+    color[u]=1;
+    int des;
+    for(i=0;i<adjList[u].size();i++){
+        des=adjList[u][i].d;
+        if(color[des]==1) return true;
+        else if(color[des]==0 && DFS(adjList, color, des)) return true;
+    }
+    color[u]=2;
+    return false;
+}
 
 /*
 //Calculate indegree, outdegree, and sigma

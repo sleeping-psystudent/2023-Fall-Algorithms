@@ -31,6 +31,8 @@ void Merge(int a, int b, vector<int>& parent, vector<int>& rank);
 void CountSort(vector<edge>& data);
 int KruskalMST(vector<edge>& data, vector<edge>& rmv, vector<edge>& rma, vector<int>& parent, vector<int>& rank);
 //////////// Directed Acyclic Graph ////////////
+bool Cycle(vector<vector<vertex>>& adjList);
+bool DFS(vector<vector<vertex>>& adjList, vector<int>& color, int u);
 /*
 void degreeCal(vector<edge>& data1, vector<vertex>& data2, vector<int>& indegree, vector<int>& outdegree);
 void ELS(vector<vertex>& data2, vertex* s1, vertex* s2, vector<int>& indegree, vector<int>& outdegree);
