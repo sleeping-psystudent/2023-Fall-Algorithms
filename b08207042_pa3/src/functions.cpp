@@ -41,10 +41,9 @@ void CountSort(vector<edge>& data){
 }
 
 //KruskalMST
-int KruskalMST(vector<edge>& data, vector<int>& parent, vector<int>& rank){
+int KruskalMST(vector<edge>& data, vector<edge>& rmv, vector<edge>& rma, vector<int>& parent, vector<int>& rank){
     int i;
-    int weightSum=0;
-    int maxSum=0;
+    int minSum=0;
 
     for(i=0;i<data.size();i++){
         int u=data[i].u;
@@ -52,19 +51,25 @@ int KruskalMST(vector<edge>& data, vector<int>& parent, vector<int>& rank){
         int set_u=Find(u, parent);
         int set_v=Find(v, parent);
 
-        weightSum+=data[i].w;
         if(set_u!=set_v){
-            maxSum+=data[i].w;
             Merge(set_u, set_v, parent, rank);
-            data[i].u=-1;
+            rma.push_back(data[i]);
+        }
+        else{
+            minSum+=data[i].w;
+            rmv.push_back(data[i]);
         }
     }
-
-    return weightSum-maxSum;
+    
+    return minSum;
 }
 
 //////////// Directed Acyclic Graph ////////////
 
+//bool DFS
+
+
+/*
 //Calculate indegree, outdegree, and sigma
 void degreeCal(vector<edge>& data1, vector<vertex>& data2, vector<int>& indegree, vector<int>& outdegree){
     int i;
@@ -72,11 +77,24 @@ void degreeCal(vector<edge>& data1, vector<vertex>& data2, vector<int>& indegree
         indegree[data1[i].v]++;
         outdegree[data1[i].u]++;
     }
-    for(i=0;i<indegree.size();i++){
+    for(i=0;i<data2.size();i++){
         data2[i].idx=i;
-        data2[i].sigma=outdegree[i]-indegree[i];
+        if(indegree[i]==0) data2[i].loc='b'; // source
+        else if(outdegree[i]==0) data2[i].loc='e'; // sink
+        else data2[i].loc='s'; // the rest
         data2[i].front=NULL;
         data2[i].back=NULL;
+    }
+    for(i=0;i<data1.size();i++){
+        indegree[data1[i].v]--;
+        outdegree[data1[i].u]--;
+        indegree[data1[i].v]+=data1[i].w;
+        outdegree[data1[i].u]+=abs(data1[i].w);
+    }
+    for(i=0;i<data2.size();i++){
+        //data2[i].sigma=indegree[i];
+        data2[i].sigma=outdegree[i]-indegree[i];
+        //cout<<"sigma: "<<data2[i].idx<<" "<<data2[i].sigma<<" "<<outdegree[i]<<" "<<indegree[i]<<endl;
     }
 }
 
@@ -89,15 +107,15 @@ void ELS(vector<vertex>& data2, vertex* s1, vertex* s2, vector<int>& indegree, v
     vector<vertex> rest(data2.size());
 
     for(i=0;i<data2.size();i++){
-        //source s1<-s1u
-        if(indegree[i]==0){
+        //Source s1<-s1u
+        if(data2[i].loc=='b'){
             now1->back=&data2[i];
             data2[i].front=now1;
             now1=now1->back;
             //cout<<"source: "<<now1->idx<<" "<<now1->sigma<<endl;
         }
-        //sink s2<-us2
-        else if(outdegree[i]==0){
+        //Sink s2<-us2
+        else if(data2[i].loc=='e'){
             now2->front=&data2[i];
             data2[i].back=now2;
             now2=now2->front;
@@ -106,18 +124,17 @@ void ELS(vector<vertex>& data2, vertex* s1, vertex* s2, vector<int>& indegree, v
         else{
             rest[count].idx=data2[i].idx;
             rest[count].sigma=data2[i].sigma;
-            rest[count].idx_ts=data2[i].idx_ts;
-            rest[count].front=NULL;
-            rest[count].back=NULL;
             //cout<<"count: "<<rest[count].idx<<" "<<rest[count].sigma<<endl;
             count++;
         }
     }
 
-    //neither source nor sink
+    //Neither source nor sink
     if(count!=0){
         //sorting by sigma
         sort(rest.begin(), rest.begin()+count, compareSigma);
+        //for(i=0;i<count;i++) cout<<"seq: "<<rest[i].idx<<" "<<rest[i].sigma<<endl;
+
         //maximum s1<-s1u
         for(i=0;i<count;i++){
             now1->back=&data2[rest[i].idx];
@@ -134,6 +151,9 @@ void ELS(vector<vertex>& data2, vertex* s1, vertex* s2, vector<int>& indegree, v
     //topolofical sort index
     vertex* now=s1->back;
     for(i=0;i<data2.size();i++){
+        //for testing
+        //cout<<"seq: "<<now->idx<<" "<<now->sigma<<endl;
+
         now->idx_ts=i;
         now=now->back;
     }
@@ -142,24 +162,24 @@ void ELS(vector<vertex>& data2, vertex* s1, vertex* s2, vector<int>& indegree, v
 
 //Nonincreasing
 bool compareSigma(const vertex& v1, const vertex& v2){
+    //return v1.sigma<v2.sigma;
     return v1.sigma>v2.sigma;
 }
 
-//Find out backward edge
+//Find out backward edges
 int DAG(vector<edge>& data1, vector<vertex>& data2){
     int i, u, v;
-    int weightSum=0;
-    int maxSum=0;
+    int minSum=0;
 
     for(i=0;i<data1.size();i++){
         u=data2[data1[i].u].idx_ts;
         v=data2[data1[i].v].idx_ts;
-        weightSum+=data1[i].w;
+
         //not backward edge
-        if(u<v){
-            maxSum+=data1[i].w;
-            data1[i].u=-1;
-        }
+        if(u<v) data1[i].u=-1;
+        else minSum+=data1[i].w;
     }
-    return weightSum-maxSum;
+    //cout<<minSum<<endl;
+    return minSum;
 }
+*/

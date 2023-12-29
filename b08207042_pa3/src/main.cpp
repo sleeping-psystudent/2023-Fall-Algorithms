@@ -31,44 +31,65 @@ int main(int argc, char*argv[]){
 
     //////////// which type to execute ////////////
     int ans;
+    vector<edge> remain;
+    vector<edge> remove;
 
     if(type=='u'){
         for(i=0;i<ver_num;i++) parent_indegree[i]=i; //parent
         CountSort(edge_set);
-        ans=KruskalMST(edge_set, parent_indegree, rank_outdegree);
+        ans=KruskalMST(edge_set, remove, remain, parent_indegree, rank_outdegree);
     }
+    /*
     else if(type=='d'){
-
         vector<vertex> ver_set(ver_num);
         degreeCal(edge_set, ver_set, parent_indegree, rank_outdegree);
 
         vertex* s1=new vertex();
         s1->idx=-1;
         s1->sigma=0;
+        s1->loc='b';
         s1->idx_ts=0;
         s1->front=NULL;
         s1->back=NULL;
         vertex* s2=new vertex();
         s2->idx=1;
         s2->sigma=0;
+        s2->loc='e';
         s2->idx_ts=0;
         s2->front=NULL;
         s2->back=NULL;
 
         ELS(ver_set, s1, s2, parent_indegree, rank_outdegree);
         ans=DAG(edge_set, ver_set);
+    }*/
+    else if(type=='d'){
+        for(i=0;i<ver_num;i++) parent_indegree[i]=i; //parent
+        CountSort(edge_set);
+        ans=KruskalMST(edge_set, remove, remain, parent_indegree, rank_outdegree);
+
+        //create adj list by remain
+        vector<vector<vertex>> adjList(ver_num);
+        for(i=0;i<remain.size();i++){
+            adjList[remain[i].u].push_back({remain[i].v, remain[i].w});
+        }
+
+        //put positive edges back to the graph
+        for(i=0;i<remove.size();i++){
+            if(remove[i].w>0){
+                if(DFS()==false){
+
+                }
+            }
+        }
     }
-/*
+
     //for testing
     cout<<ans<<endl;
-    for(i=0;i<edge_num;i++){
-        if(edge_set[i].u==-1) continue;
-        else cout<<edge_set[i].u<<" "<<edge_set[i].v<<" "<<edge_set[i].w<<endl;
-    }
-*/
+    for(i=0;i<remove.size();i++) cout<<remove[i].u<<" "<<remove[i].v<<" "<<remove[i].w<<endl;
+
 
     //////////// write the output file ////////////
-    
+/*    
     fout<<ans<<endl;
     for(i=0;i<edge_num;i++){
         if(edge_set[i].u==-1) continue;
@@ -78,5 +99,5 @@ int main(int argc, char*argv[]){
 
     fin.close();
     fout.close();
-
+*/
 }
